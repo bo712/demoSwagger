@@ -15,15 +15,14 @@ import io.github.bo712.demoswagger.model.Book;
 public class BookDao {
 
     private final List<Book> booksDb = new ArrayList<>();
-    private int idCount;
+    private static int ID_COUNT;
 
     public BookDao() {
-        booksDb.add(new Book(1, "Ruslan & Ludmila", "Pushkin", 1820, "123-3-13-233-2"));
-        booksDb.add(new Book(2, "Сказка о царе Салтане", "Pushkin", 1822, "123-3-13-233-2"));
-        booksDb.add(new Book(3, "Nochnoy Dozor", "Lukyanenko", 1997, "123-3-13-544-3"));
-        booksDb.add(new Book(4, "Vyedmak", "Sapkovsky", 1995, "213-3-13-233-2"));
-        booksDb.add(new Book(5, "Vyedmak 2", "Sapkovsky", 1997, "213-3-13-233-2"));
-        idCount = booksDb.size();
+        booksDb.add(new Book(++ID_COUNT, "Ruslan & Ludmila", "Pushkin", 1820, "123-3-13-233-2"));
+        booksDb.add(new Book(++ID_COUNT, "Сказка о царе Салтане", "Pushkin", 1822, "123-3-13-233-2"));
+        booksDb.add(new Book(++ID_COUNT, "Nochnoy Dozor", "Lukyanenko", 1997, "123-3-13-544-3"));
+        booksDb.add(new Book(++ID_COUNT, "Vyedmak", "Sapkovsky", 1995, "213-3-13-233-2"));
+        booksDb.add(new Book(++ID_COUNT, "Vyedmak 2", "Sapkovsky", 1997, "213-3-13-233-2"));
     }
 
     public List<Book> getAll() {
@@ -31,8 +30,7 @@ public class BookDao {
     }
 
     public void add(Book newBook) {
-        idCount += 1;
-        newBook.setId(idCount);
+        newBook.setId(++ID_COUNT);
         booksDb.add(newBook);
     }
 
@@ -56,5 +54,13 @@ public class BookDao {
 
     public List<Book> findByYearOfRelease(Integer yearOfRelease) {
         return booksDb.stream().filter(book -> book.getYearOfRelease().equals(yearOfRelease)).collect(Collectors.toList());
+    }
+
+    public Book getById(Integer id) {
+        return booksDb
+                .stream()
+                .filter(book -> book.getId().equals(id))
+                .findFirst()
+                .orElse(new Book(0,"","",-1,""));
     }
 }

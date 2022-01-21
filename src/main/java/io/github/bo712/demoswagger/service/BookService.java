@@ -6,12 +6,14 @@ import org.springframework.stereotype.Service;
 
 import io.github.bo712.demoswagger.model.Book;
 import io.github.bo712.demoswagger.repository.BookDao;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * @author K.Babakov
  * @since 20 янв. 2022 г.
  */
 @Service
+@Slf4j
 public class BookService {
 
     private final BookDao bookDb;
@@ -37,6 +39,7 @@ public class BookService {
     }
 
     public List<Book> findByAuthor(String authorName) {
+        log.info("Trying to find list of books by author's name: {}", authorName);
         return bookDb.findByAuthor(authorName);
     }
 
@@ -48,5 +51,9 @@ public class BookService {
     public List<Book> findByYearOfRelease(Integer yearOfRelease) {
         return bookDb.findByYearOfRelease(yearOfRelease);
 
+    }
+
+    public Book getById(Integer id) {
+        return bookDb.getById(id);
     }
 }

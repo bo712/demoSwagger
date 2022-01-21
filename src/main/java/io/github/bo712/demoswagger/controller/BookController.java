@@ -38,6 +38,19 @@ public class BookController {
         return bookService.getAll();
     }
 
+    @GetMapping("/books/{id}")
+    @Operation(
+            summary = "Получение книги по id",
+            description = "Позволяет получить книгу по её id"
+    )
+    public ResponseEntity<Book> getById(@PathVariable("id") Integer id) {
+        Book book = bookService.getById(id);
+        if (book.getId() == 0){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(book, HttpStatus.OK);
+    }
+
     @PostMapping("/books")
     @Operation(
             summary = "Добавление новой книги",
